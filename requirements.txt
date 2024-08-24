@@ -1,5 +1,5 @@
 setuptools
 matplotlib
 numpy<2.0.0
-streamlit==1.37.1
+streamlit
 wheel
