@@ -5,11 +5,11 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 def connect_to_google_sheet():
-    # Define the scope
-    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+    # Use st.secrets to retrieve the credentials securely
+    creds_dict = st.secrets["google_sheets"]
 
-    # Add your service account file
-    creds = ServiceAccountCredentials.from_json_keyfile_name('sean-lam-finance-1-c7df80bf341c.json', scope)
+    # Create the credentials using the data from secrets.toml
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"])
 
     # Authorize the clientsheet
     client = gspread.authorize(creds)
