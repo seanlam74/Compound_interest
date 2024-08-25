@@ -3,5 +3,7 @@ matplotlib
 numpy<2.0.0
 streamlit
 datetime
-os
+gspread
+oauth2client
+pandas
 wheel
