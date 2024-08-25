@@ -64,17 +64,20 @@ def income_expenditure_tracker():
             # Append the data to the Google Sheet
             worksheet.append_row(data)
 
-            worksheet = connect_to_google_sheet()
-            worksheet.append_row(["Test Date", "Test Country", 100, 50])
-
             st.success(f"Entry saved successfully! {current_datetime.strftime('%Y-%m-%d %H:%M:%S')}, Location: {country}")
 
-        # Show the existing CSV file if it exists
+        # Show the existing Google Sheet data
         try:
             st.subheader("Previous Entries")
-            df_existing = pd.read_csv("https://raw.githubusercontent.com/seanlam74/Compound_interest/main/modular_app/income_expenditure.csv")
+
+            # Fetch all data from the Google Sheet
+            rows = worksheet.get_all_values()
+
+            # Convert the data to a Pandas DataFrame
+            df_existing = pd.DataFrame(rows[1:], columns=rows[0])  # Exclude the header row
             st.write(df_existing)
-        except FileNotFoundError:
-            st.info("No entries found yet.")
+
+        except Exception as e:
+            st.error(f"Error reading data from the Google Sheet: {e}")
     else:
         st.warning("Please select or enter your country.")
