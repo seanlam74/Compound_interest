@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime
-import os
 
 def get_user_country():
     countries = ['Singapore', 'United States', 'Canada', 'Australia', 'United Kingdom', 'Germany', 
@@ -41,20 +40,17 @@ def income_expenditure_tracker():
             df = pd.DataFrame(data)
 
             # CSV file path
-            csv_file = "income_expenditure.csv"
-
-            # Check if file exists
-            file_exists = os.path.isfile(csv_file)
+            csv_file = "https://raw.githubusercontent.com/seanlam74/Compound_interest/main/modular_app/income_expenditure.csv"
 
             # Save data to CSV (append to the existing file or create a new one)
-            df.to_csv(csv_file, mode='a', header=not file_exists, index=False)
+            df.to_csv(csv_file, mode='a', header=False, index=False)
 
             st.success(f"Entry saved successfully! {current_datetime.strftime('%Y-%m-%d %H:%M:%S')}, Location: {country}")
 
         # Show the existing CSV file if it exists
         try:
             st.subheader("Previous Entries")
-            df_existing = pd.read_csv("income_expenditure.csv")
+            df_existing = pd.read_csv("https://raw.githubusercontent.com/seanlam74/Compound_interest/main/modular_app/income_expenditure.csv")
             st.write(df_existing)
         except FileNotFoundError:
             st.info("No entries found yet.")
