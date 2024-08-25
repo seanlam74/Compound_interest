@@ -1,6 +1,25 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+
+def connect_to_google_sheet():
+    # Define the scope
+    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+
+    # Add your service account file
+    creds = ServiceAccountCredentials.from_json_keyfile_name('sean-lam-finance-1-c7df80bf341c.json', scope)
+
+    # Authorize the clientsheet
+    client = gspread.authorize(creds)
+
+    # Open the google sheet by URL
+    sheet = client.open_by_url("https://docs.google.com/spreadsheets/d/19sckfKvAecswPwYjfimLH5XY05DcpyF3K7n0WCgaajM/edit?usp=sharing")
+
+    # Select the first sheet
+    worksheet = sheet.sheet1
+    return worksheet
 
 def get_user_country():
     countries = ['Singapore', 'United States', 'Canada', 'Australia', 'United Kingdom', 'Germany', 
@@ -37,13 +56,16 @@ def income_expenditure_tracker():
                 "income": [daily_income],
                 "expenditure": [daily_expenditure]
             }
-            df = pd.DataFrame(data)
+            worksheet = connect_to_google_sheet()
 
-            # CSV file path
-            csv_file = "https://raw.githubusercontent.com/seanlam74/Compound_interest/main/modular_app/income_expenditure.csv"
+            # Data in a format suitable for Google Sheets (a list of values)
+            data = [current_datetime, country, daily_income, daily_expenditure]
 
-            # Save data to CSV (append to the existing file or create a new one)
-            df.to_csv(csv_file, mode='a', header=False, index=False)
+            # Append the data to the Google Sheet
+            worksheet.append_row(data)
+
+            worksheet = connect_to_google_sheet()
+            worksheet.append_row(["Test Date", "Test Country", 100, 50])
 
             st.success(f"Entry saved successfully! {current_datetime.strftime('%Y-%m-%d %H:%M:%S')}, Location: {country}")
 
