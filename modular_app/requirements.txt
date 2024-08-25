@@ -3,5 +3,4 @@ matplotlib
 numpy<2.0.0
 streamlit
 datetime
-os
 wheel
