@@ -59,7 +59,7 @@ def income_expenditure_tracker():
             worksheet = connect_to_google_sheet()
 
             # Data in a format suitable for Google Sheets (a list of values)
-            data = [current_datetime, country, daily_income, daily_expenditure]
+            data = [str(current_datetime), country, daily_income, daily_expenditure]
 
             # Append the data to the Google Sheet
             worksheet.append_row(data)
