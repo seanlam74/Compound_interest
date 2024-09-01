@@ -39,6 +39,9 @@ def income_expenditure_tracker():
     daily_income = st.number_input("Enter your daily income ($)", min_value=0.0, value=0.0)
     daily_expenditure = st.number_input("Enter your daily expenditure ($)", min_value=0.0, value=0.0)
 
+    # Category selection
+    category = st.selectbox("Select Category", ["Food", "Transport", "Health", "Others"])
+
     # Get current date/time
     current_datetime = datetime.now()
 
@@ -49,18 +52,10 @@ def income_expenditure_tracker():
     if country:
         # Save button to save the entry to the CSV file
         if st.button("Save Entry"):
-            # Prepare data to save
-            data = {
-                "date": [current_datetime],
-                "country": [country],
-                "income": [daily_income],
-                "expenditure": [daily_expenditure]
-            }
+           # Prepare data as a list of values
+            data = [str(current_datetime), country, daily_income, daily_expenditure, category]
+
             worksheet = connect_to_google_sheet()
-
-            # Data in a format suitable for Google Sheets (a list of values)
-            data = [str(current_datetime), country, daily_income, daily_expenditure]
-
             # Append the data to the Google Sheet
             worksheet.append_row(data)
 
