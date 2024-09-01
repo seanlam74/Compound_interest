@@ -14,15 +14,15 @@ st.set_page_config(
 st.title("Financial Calculator App")
 
 # Add tabs to navigate between different pages
-tab1, tab2, tab3 = st.tabs(["Compound Interest Calculator", "Other Module", "Income & Expenditure Tracker"])
+tab1, tab2, tab3 = st.tabs(["Income & Expenditure Tracker","Compound Interest Calculator", "Other Module"])
 
 
 # Load the respective pages based on selected tabs
 with tab1:
-    compound_interest_calculator()
+    income_expenditure_tracker()
 
 with tab2:
-    other_module_function()
+    compound_interest_calculator()
 
 with tab3:
-    income_expenditure_tracker()
+    other_module_function()
